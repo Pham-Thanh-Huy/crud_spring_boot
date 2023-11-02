@@ -18,9 +18,13 @@ public class StudentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private String name;
+    
     private int age;
+    
     private String address;
+    
     private String gender;
 
     @ManyToOne
