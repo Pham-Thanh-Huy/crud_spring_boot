@@ -1,9 +1,7 @@
 package com.vt.CrudApiStudents.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.vt.CrudApiStudents.dto.BaseResponse;
+import com.vt.CrudApiStudents.dto.ClassDTO;
 import com.vt.CrudApiStudents.entity.ClassEntity;
 import com.vt.CrudApiStudents.services.ClassServices;
 
@@ -36,41 +35,16 @@ public class ClassController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addClass(@RequestBody ClassEntity classEntity) {
-        Long classId = classEntity.getClassId();
-        if (classId != null) {
-            if (classServices.getById(classId) != null) {
-                Map<String, String> response = new HashMap<>();
-                response.put("message", "id Lớp đã tồn tại, không thể thêm");
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-            }
-        }
-        classEntity.setClassId(0L);
-        return ResponseEntity.ok(classServices.addClass(classEntity));
+    public ResponseEntity<BaseResponse<ClassEntity>> addClass(@RequestBody ClassDTO classDTO) {
+        BaseResponse<ClassEntity> baseResponse = classServices.addClass(classDTO);
+        return new ResponseEntity<BaseResponse<ClassEntity>>(baseResponse, HttpStatus.valueOf(baseResponse.getCode()));
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateClass(@PathVariable Long id, @RequestBody ClassEntity classEntity) {
-        ClassEntity classUpdate = classServices.getById(id);
-        if (classUpdate != null) {
-            classUpdate.setClassName(classEntity.getClassName());
-            classServices.updateClass(classUpdate);
-            return ResponseEntity.ok(classUpdate);
-        }
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "Không tồn tại lớp với id là: " + id);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    public ResponseEntity<BaseResponse<ClassEntity>> updateClass(@PathVariable Long id,
+            @RequestBody ClassDTO classEntity) {
+        BaseResponse<ClassEntity> baseResponse = classServices.update(id, classEntity);
+        return new ResponseEntity<>(baseResponse, HttpStatus.valueOf(baseResponse.getCode()));
     }
-    
-    @GetMapping("/delete/{id}")
-    public ResponseEntity<?> deleteClass(@PathVariable Long id) {
-        ClassEntity classDelete = classServices.getById(id);
-        if (classDelete != null) {
-            classServices.deleteClass(id);
-            return ResponseEntity.ok(classDelete);
-        }
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "Không tồn tại lớp với id là: " + id + " để xóa");
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-    }
+
 }
