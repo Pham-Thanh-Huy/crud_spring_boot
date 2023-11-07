@@ -37,7 +37,7 @@ public class ClassController {
     @PostMapping("/add")
     public ResponseEntity<BaseResponse<ClassEntity>> addClass(@RequestBody ClassDTO classDTO) {
         BaseResponse<ClassEntity> baseResponse = classServices.addClass(classDTO);
-        return new ResponseEntity<BaseResponse<ClassEntity>>(baseResponse, HttpStatus.valueOf(baseResponse.getCode()));
+        return new ResponseEntity<>(baseResponse, HttpStatus.valueOf(baseResponse.getCode()));
     }
 
     @PutMapping("/update/{id}")
@@ -46,5 +46,13 @@ public class ClassController {
         BaseResponse<ClassEntity> baseResponse = classServices.update(id, classEntity);
         return new ResponseEntity<>(baseResponse, HttpStatus.valueOf(baseResponse.getCode()));
     }
+
+
+    @PostMapping("/delete/{id}")
+    public ResponseEntity<BaseResponse<ClassEntity>> deleteClass(@PathVariable Long id){
+        BaseResponse baseResponse = classServices.deleteClass(id);
+        return new ResponseEntity<>(baseResponse, HttpStatus.valueOf(baseResponse.getCode()));
+    }
+
 
 }
