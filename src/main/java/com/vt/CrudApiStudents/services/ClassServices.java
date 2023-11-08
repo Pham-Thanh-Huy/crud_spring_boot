@@ -9,13 +9,13 @@ import java.util.Optional;
 import com.vt.CrudApiStudents.dto.BaseResponse;
 import com.vt.CrudApiStudents.dto.ClassDTO;
 import com.vt.CrudApiStudents.entity.ClassEntity;
-import com.vt.CrudApiStudents.reposistory.ClassReposistory;
+import com.vt.CrudApiStudents.repository.ClassRepository;
 
 @Service
 public class ClassServices {
 
     @Autowired
-    private ClassReposistory repository;
+    private ClassRepository repository;
 
     public List<ClassEntity> getAll() {
         return repository.findAll();

@@ -12,10 +12,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import lombok.Data;
 
 
 @Entity
+@Data
 @Table(name = "class")
 public class ClassEntity {
     @Id
@@ -24,43 +25,12 @@ public class ClassEntity {
 
     private String className;
 
-    @OneToMany(mappedBy = "classEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "classEntity", fetch = FetchType.LAZY, cascade = {
+            CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST
+    })
     @JsonIgnore
     private List<StudentEntity> students;
 
 
-    public ClassEntity() {
-    } 
 
-    public ClassEntity(Long classId, String className, List<StudentEntity> students) {
-        this.classId = classId;
-        this.className = className;
-        this.students = students;
-    }
-
-    public Long getClassId() {
-        return classId;
-    }
-
-    public void setClassId(Long classId) {
-        this.classId = classId;
-    }
-
-    public String getClassName() {
-        return className;
-    }
-
-    public void setClassName(String className) {
-        this.className = className;
-    }
-
-    public List<StudentEntity> getStudents() {
-        return students;
-    }
-
-    public void setStudents(List<StudentEntity> students) {
-        this.students = students;
-    }
-    
-    
 }
