@@ -4,14 +4,19 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
+
 @Entity
-@Table(name = "Class")
+@Table(name = "class")
 public class ClassEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,11 +24,13 @@ public class ClassEntity {
 
     private String className;
 
-    @OneToMany(mappedBy = "classEntity", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "classEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<StudentEntity> students;
 
+
     public ClassEntity() {
-    }
+    } 
 
     public ClassEntity(Long classId, String className, List<StudentEntity> students) {
         this.classId = classId;

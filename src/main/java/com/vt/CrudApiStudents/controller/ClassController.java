@@ -30,8 +30,9 @@ public class ClassController {
     }
 
     @GetMapping("/get/{id}")
-    public ClassEntity getById(@PathVariable Long id) {
-        return classServices.getById(id);
+    public ResponseEntity<BaseResponse<ClassEntity>> getById(@PathVariable Long id) {
+        BaseResponse<ClassEntity> baseResponse = classServices.getById(id);
+        return new ResponseEntity<>(baseResponse, HttpStatus.valueOf(baseResponse.getCode()));
     }
 
     @PostMapping("/add")
@@ -48,9 +49,9 @@ public class ClassController {
     }
 
 
-    @PostMapping("/delete/{id}")
+    @GetMapping("/delete/{id}")
     public ResponseEntity<BaseResponse<ClassEntity>> deleteClass(@PathVariable Long id){
-        BaseResponse baseResponse = classServices.deleteClass(id);
+        BaseResponse<ClassEntity> baseResponse = classServices.deleteClass(id);
         return new ResponseEntity<>(baseResponse, HttpStatus.valueOf(baseResponse.getCode()));
     }
 
