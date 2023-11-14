@@ -30,7 +30,4 @@ public class ClassEntity {
     })
     @JsonIgnore
     private List<StudentEntity> students;
-
-
-
 }

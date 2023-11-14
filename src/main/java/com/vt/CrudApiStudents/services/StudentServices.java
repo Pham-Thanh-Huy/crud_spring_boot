@@ -3,7 +3,6 @@ package com.vt.CrudApiStudents.services;
 import java.util.List;
 import java.util.Optional;
 
-
 import com.vt.CrudApiStudents.entity.ClassEntity;
 import com.vt.CrudApiStudents.entity.SubjectEntity;
 import com.vt.CrudApiStudents.repository.ClassRepository;
@@ -12,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.vt.CrudApiStudents.configuration.Constants;
 import com.vt.CrudApiStudents.dto.BaseResponse;
 import com.vt.CrudApiStudents.dto.StudentDTO;
 import com.vt.CrudApiStudents.entity.StudentEntity;
@@ -62,20 +62,30 @@ public class StudentServices {
             return response;
         }
 
+        if (studentDTO.getAddress() == null || studentDTO.getAddress().isEmpty()) {
+            response.setMessage("Address is required.");
+            response.setCode(Constants.BAD_REQUEST);
+            return response;
+        }
         if (studentDTO.getAge() <= 0) {
             response.setMessage("Age must be a positive value.");
-            response.setCode(HttpStatus.BAD_REQUEST.value());
+            response.setCode(Constants.BAD_REQUEST);
             return response;
         }
 
+        String gender = studentDTO.getGender();
 
-        String gender = studentDTO.getGender().toLowerCase();
-        if (gender == null || (!gender.equalsIgnoreCase("male") && !gender.equalsIgnoreCase("female"))) {
+        if (gender == null || gender.isEmpty()) {
+            response.setMessage("Gender is required");
+            response.setCode(Constants.BAD_REQUEST);
+            return response;
+        }
+
+        if (!gender.equalsIgnoreCase("male") && !gender.equalsIgnoreCase("female")) {
             response.setMessage("Gender must be 'male' or 'female'");
-            response.setCode(HttpStatus.BAD_REQUEST.value());
+            response.setCode(Constants.BAD_REQUEST);
             return response;
         }
-
 
         StudentEntity student = new StudentEntity();
         student.setName(studentDTO.getName());
@@ -83,7 +93,6 @@ public class StudentServices {
         student.setGender(gender);
         student.setAddress(studentDTO.getAddress());
         student.setClassEntity(classEntity);
-
 
         student = repository.save(student);
 
@@ -93,7 +102,6 @@ public class StudentServices {
 
         return response;
     }
-
 
     public BaseResponse<StudentEntity> updateStudent(Long id, StudentDTO studentDTO) {
         BaseResponse<StudentEntity> response = new BaseResponse<>();
@@ -114,27 +122,20 @@ public class StudentServices {
                 String gender = studentDTO.getGender().toLowerCase();
                 if (!gender.equals("male") && !gender.equals("female")) {
                     response.setMessage("Invalid gender. Gender must be 'male' or 'female'");
-                    response.setCode(HttpStatus.BAD_REQUEST.value());
+                    response.setCode(Constants.BAD_REQUEST);
                     return response;
                 }
                 student.setGender(gender);
             }
 
-
-            Integer age = studentDTO.getAge();
-            if (age == null) {
-               student.setAge(student.getAge());
-            }else{
-                if (age < 0) {
+            if (studentDTO.getAge() <= 0) {
                 response.setMessage("Age must be a non-negative value.");
                 response.setCode(HttpStatus.BAD_REQUEST.value());
                 return response;
+            } else {
+                student.setAge(studentDTO.getAge());
             }
-                student.setAge(age);
 
-            }
-
-            // Lưu trạng thái cập nhật vào cơ sở dữ liệu
             student = repository.save(student);
 
             response.setData(student);
@@ -147,7 +148,6 @@ public class StudentServices {
 
         return response;
     }
-
 
     public BaseResponse<StudentEntity> deleteStudent(Long id) {
         BaseResponse<StudentEntity> baseResponse = new BaseResponse<>();
@@ -167,7 +167,6 @@ public class StudentServices {
         return baseResponse;
     }
 
-
     public BaseResponse<StudentEntity> registerSubjects(Long studentId, List<Long> subjectIds) {
         BaseResponse<StudentEntity> response = new BaseResponse<>();
         StudentEntity student = repository.findById(studentId).orElse(null);
@@ -183,20 +182,14 @@ public class StudentServices {
         // Kiểm tra xem tất cả các môn học được chọn có tồn tại không
         if (selectedSubjects.size() != subjectIds.size()) {
             response.setMessage("One or more subjects do not exist.");
-            response.setCode(HttpStatus.BAD_REQUEST.value());
+            response.setCode(Constants.BAD_REQUEST);
             return response;
         }
-
         student.setSubjects(selectedSubjects);
-
         student = repository.save(student);
-
         response.setData(student);
         response.setMessage("Success");
         response.setCode(HttpStatus.OK.value());
-
         return response;
     }
-
-
 }

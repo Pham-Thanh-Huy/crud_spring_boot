@@ -2,7 +2,7 @@ package com.vt.CrudApiStudents.controller;
 
 import com.vt.CrudApiStudents.dto.BaseResponse;
 import com.vt.CrudApiStudents.dto.StudentDTO;
-import com.vt.CrudApiStudents.entity.ClassEntity;
+
 import com.vt.CrudApiStudents.entity.StudentEntity;
 import com.vt.CrudApiStudents.services.StudentServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +56,4 @@ public class StudentController {
         BaseResponse<StudentEntity> baseResponse = studentServices.registerSubjects(studentId, subjectIds);
         return new ResponseEntity<>(baseResponse, HttpStatus.valueOf(baseResponse.getCode()));
     }
-
-
 }
