@@ -180,7 +180,6 @@ public class StudentServices {
 
         List<SubjectEntity> selectedSubjects = subjectRepository.findAllById(subjectIds);
 
-        // Kiểm tra xem tất cả các môn học được chọn có tồn tại không
         if (selectedSubjects.size() != subjectIds.size()) {
             response.setMessage("One or more subjects do not exist.");
             response.setCode(HttpStatus.BAD_REQUEST.value());
