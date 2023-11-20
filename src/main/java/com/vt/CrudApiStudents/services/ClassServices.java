@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
+
+import com.vt.CrudApiStudents.configuration.Constants;
 import com.vt.CrudApiStudents.dto.BaseResponse;
 import com.vt.CrudApiStudents.dto.ClassDTO;
 import com.vt.CrudApiStudents.entity.ClassEntity;
@@ -83,8 +85,6 @@ public class ClassServices {
 
     public BaseResponse<ClassEntity> deleteClass(Long id) {
         BaseResponse<ClassEntity> baseResponse = new BaseResponse<>();
-
-        // Tìm dòng dữ liệu cần xóa
         ClassEntity classEntity = repository.findById(id).orElse(null);
 
         if (classEntity != null) {
@@ -94,10 +94,9 @@ public class ClassServices {
             baseResponse.setCode(HttpStatus.OK.value());
 
         } else {
-            baseResponse.setMessage("Class not found");
-            baseResponse.setCode(HttpStatus.NOT_FOUND.value());
+            baseResponse.setMessage("Class" + Constants.NOT_FOUND_CODE);
+            baseResponse.setCode(Constants.NOT_FOUND_CODE);
         }
         return baseResponse;
     }
-
 }

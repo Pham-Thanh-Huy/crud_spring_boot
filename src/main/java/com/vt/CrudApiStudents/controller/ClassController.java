@@ -55,5 +55,4 @@ public class ClassController {
         return new ResponseEntity<>(baseResponse, HttpStatus.valueOf(baseResponse.getCode()));
     }
 
-
 }

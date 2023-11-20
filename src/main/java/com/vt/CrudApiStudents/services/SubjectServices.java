@@ -2,7 +2,7 @@ package com.vt.CrudApiStudents.services;
 
 import com.vt.CrudApiStudents.dto.SubjectDTO;
 import com.vt.CrudApiStudents.dto.BaseResponse;
-import com.vt.CrudApiStudents.entity.StudentEntity;
+
 import com.vt.CrudApiStudents.entity.SubjectEntity;
 import com.vt.CrudApiStudents.repository.SubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.vt.CrudApiStudents.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 import java.util.List;
@@ -33,11 +33,11 @@ public class StudentEntity {
 
     @ManyToOne
     @JoinColumn(name = "class_id")
-    @JsonIgnore
     private ClassEntity classEntity;
 
     @ManyToMany
-    @JoinTable(name = "student_subject", joinColumns = @JoinColumn(name = "student_id"), inverseJoinColumns = @JoinColumn(name = "subject_id"))
+    @JoinTable(name = "student_subject", joinColumns = @JoinColumn(name = "student_id"), 
+    inverseJoinColumns = @JoinColumn(name = "subject_id"))
     private List<SubjectEntity> subjects;
 
 
