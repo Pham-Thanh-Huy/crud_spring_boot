@@ -2,10 +2,7 @@ package com.vt.CrudApiStudents.controller;
 
 import com.vt.CrudApiStudents.dto.BaseResponse;
 import com.vt.CrudApiStudents.dto.StudentDTO;
-<<<<<<< HEAD
-=======
 
->>>>>>> d20e8ff0709fac3eead7295ffa07b1c989b5a9ff
 import com.vt.CrudApiStudents.entity.StudentEntity;
 import com.vt.CrudApiStudents.services.StudentServices;
 import org.springframework.beans.factory.annotation.Autowired;
